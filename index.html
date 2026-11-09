@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MICROBES4AT-HU | Moderator Cockpit & Event Portal</title>
+  <style>
+    :root {
+      --primary: #1b4d3e;
+      --primary-hover: #14382d;
+      --accent: #f59e0b;
+      --accent-hover: #d97706;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* Top Official Banner */
+    .banner-container {
+      width: 100%;
+      min-height: 110px;
+      background: #ffffff;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      transition: opacity 0.2s ease;
+    }
+
+    .banner-placeholder {
+      width: 100%;
+      max-width: 1100px;
+      height: 290px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      color: var(--text-muted);
+      overflow: hidden;
+    }
+
+    .banner-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* Global Navigation */
+    .nav-tabs {
+      max-width: 1100px;
+      margin: 1rem auto 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      gap: 0.75rem;
+      border-bottom: 2px solid var(--border);
+      position: relative;
+      z-index: 50;
+    }
+
+    .nav-btn {
+      padding: 0.75rem 1.4rem;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      color: var(--primary);
+    }
+
+    .nav-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      background: #ffffff;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 4rem 1rem;
+      position: relative;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Full-Page Background Tab Layout */
+    #tab-background.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: calc(100vh - 180px);
+      min-height: 550px;
+      margin-top: 0.5rem;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fullscreen-bg-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .fullscreen-bg-wrapper img {
+      max-width: 100%;
+      max-height: 100%;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .bg-controls {
+      position: absolute;
+      bottom: 15px;
+      right: 20px;
+      display: flex;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(6px);
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    /* Sticky Floating Clock on the Right */
+    .floating-clock {
+      position: fixed;
+      top: 20px;
+      right: 25px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border: 2px solid var(--primary);
+      border-radius: 12px;
+      padding: 0.6rem 1.2rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      z-index: 1000;
+      text-align: right;
+      min-width: 160px;
+      transition: opacity 0.2s ease;
+    }
+
+    .floating-clock .clock-time {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--primary);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1;
+    }
+
+    .floating-clock .clock-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+    }
+
+    /* Home View Styling */
+.hero-image-box {
+  width: 100%;
+  height: 340px;
+  border-radius: 12px;
+  border: 2px dashed #94a3b8;
+  
+  /* Sötétítő réteggel kombinálva, hogy a fehér szöveg jól olvasható maradjon */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url("images/uzem.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+   /* .hero-image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .hero-text-overlay {
+      position: relative;
+      z-index: 2;
+    } */
+
+    .qr-and-quicknav {
+      margin-top: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .qr-and-quicknav {
+        grid-template-columns: 1fr;
+      }
+      .floating-clock {
+        position: static;
+        margin-bottom: 1rem;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .qr-placeholder-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .qr-box {
+      width: 170px;
+      height: 170px;
+      border: 2px dashed #94a3b8;
+      border-radius: 8px;
+      background: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 1rem 0;
+      color: var(--text-muted);
+    }
+
+    /* Moderator Collapsible Accordions */
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      background: #e2e8f0;
+      color: #1e293b;
+      padding: 0.65rem 1rem;
+      border-radius: 6px;
+      margin: 1.5rem 0 0.8rem 0;
+    }
+
+    details.agenda-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 0.6rem;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    details.agenda-group[open] {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    details.agenda-group.active {
+      border-left: 5px solid var(--accent);
+      background: #fffbeb;
+    }
+
+    summary.agenda-header {
+      padding: 0.9rem 1.2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      user-select: none;
+      list-style: none;
+    }
+
+    summary.agenda-header::-webkit-details-marker {
+      display: none;
+    }
+
+    summary.agenda-header:hover {
+      background: #f8fafc;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex: 1;
+    }
+
+    .header-time {
+      font-weight: 700;
+      color: var(--primary);
+      min-width: 105px;
+      font-size: 0.95rem;
+    }
+
+    .chevron {
+      transition: transform 0.2s ease;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    details[open] .chevron {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-content {
+      padding: 0.5rem 1.2rem 1rem 1.2rem;
+      border-top: 1px solid #f1f5f9;
+      background: #fafafa;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .sub-item {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.65rem 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .sub-item.completed {
+      opacity: 0.5;
+      background: #f1f5f9;
+    }
+
+    .sub-item.completed .sub-name {
+      text-decoration: line-through;
+    }
+
+    .sub-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .item-checkbox {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: var(--success);
+    }
+
+    .sub-time {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      min-width: 85px;
+    }
+
+    .sub-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      border: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: background 0.15s ease;
+    }
+
+    .btn-folder {
+      background: #0284c7;
+      color: #ffffff;
+    }
+
+    .btn-folder:hover {
+      background: #0369a1;
+    }
+
+    .btn-lunch {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-lunch:hover {
+      background: var(--accent-hover);
+    }
+
+    /* Iframe Form Frame */
+    .iframe-box {
+      width: 100%;
+      height: 600px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #f8fafc;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .iframe-box iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Sticky Real-Time Clock -->
+  <div class="floating-clock" id="floating-clock">
+    <div class="clock-label">Local Time</div>
+    <div class="clock-time" id="clock">09:15:00</div>
+    <div class="clock-label" id="current-status" style="color: var(--primary);">Live Tracking</div>
+  </div>
+
+  <!-- Top Logo Banner -->
+  <header class="banner-container" id="top-banner">
+    <div class="banner-placeholder">
+      <img src="images/logo.png" alt="Interreg Logo Banner">
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav-tabs">
+    <button class="nav-btn" onclick="openTab('background')">🖼 Background Screen</button>
+    <button class="nav-btn active" onclick="openTab('home')">🏠 Welcome (Home)</button>
+    <button class="nav-btn" onclick="openTab('moderator')">⏱ Moderator Cockpit</button>
+    <button class="nav-btn" onclick="openTab('program')">📋 Program Overview</button>
+    <button class="nav-btn" onclick="openTab('lunch')">🍽 Lunch Selection</button>
+  </nav>
+
+  <div class="container">
+
+    <!-- ONE-PAGE FULLSCREEN BACKGROUND TAB -->
+    <section id="tab-background" class="tab-content">
+      <div class="fullscreen-bg-wrapper" id="bg-fullscreen-target">
+        <!-- The single full-page background image -->
+        <img src="images/main.png" alt="MICROBES4AT-HU Background Stage Screen">
+      </div>
+      <div class="bg-controls">
+        <button class="btn btn-folder" style="font-size: 0.75rem;" onclick="toggleFullScreen()">⛶ Fullscreen</button>
+        <button class="btn btn-folder" style="font-size: 0.75rem; background: #64748b;" onclick="toggleFit(this)">Cover / Contain</button>
+      </div>
+    </section>
+
+    <!-- TAB 1: HOME PAGE -->
+    <section id="tab-home" class="tab-content active">
+<div class="hero-image-box">
+  <div class="hero-text-overlay" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
+    
+    <!-- Egyetlen sorban: WELCOME TO + fehér hátterű védett logó -->
+    <div style="display: inline-flex; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap;">
+      <h1 style="font-size: 2.2rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; margin: 0; color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.85); line-height: 1;">
+        WELCOME TO
+      </h1>
+      <div style="background: rgba(255, 255, 255, 0.95); padding: 5px 14px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.35);">
+        <img src="images/lajtamag.svg" alt="Lajtamag" style="height: 34px; width: auto; display: block;">
+      </div>
+    </div>
+
+    <!-- Projekt azonosító és dátum közvetlenül alatta -->
+    <p style="font-size: 1.15rem; font-weight: 600; margin-top: 1rem; color: #ffffff; opacity: 0.95; text-shadow: 0 2px 6px rgba(0,0,0,0.9);">
+      MICROBES4AT-HU (ATHU-0100146)
+    </p>
+    <p style="font-size: 0.95rem; color: #ffffff; opacity: 0.85; margin-top: 0.25rem; text-shadow: 0 1px 4px rgba(0,0,0,0.9);">
+      Semester 1 Review & Planning Meeting — 12th November, 2026
+    </p>
+
+  </div>
+</div>
+
+      <div class="qr-and-quicknav">
+        <div class="card">
+          <h2 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 0.75rem;">Meeting Guidelines & Quick Navigation</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1.25rem;">
+            Use the compact Moderator Cockpit to control presentations and check off completed slots. During the coffee break, use the Lunch Selection tab to register orders.
+          </p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button class="btn btn-folder" onclick="openTab('moderator')">Open Moderator Cockpit</button>
+            <button class="btn btn-lunch" onclick="openTab('lunch')">Choose Lunch</button>
+          </div>
+          <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.9rem; color: var(--text-muted);">
+            📍 <strong>Location:</strong> Lajtamag Headquarters, Bereki u. 1. Mosonudvar, Hungary
+          </div>
+        </div>
+
+        <div class="card qr-placeholder-card">
+          <h3 style="font-size: 1rem; color: var(--text);">Scan for this Portal</h3>
+          <div class="qr-box">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.5">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+              <rect x="14" y="14" width="3" height="3"></rect>
+              <rect x="18" y="18" width="3" height="3"></rect>
+            </svg>
+            <span style="font-size: 0.75rem; margin-top: 0.5rem;">[ QR Code Placeholder ]</span>
+          </div>
+          <p style="font-size: 0.75rem; color: var(--text-muted);">Access portal from mobile devices</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: MODERATOR COCKPIT -->
+    <section id="tab-moderator" class="tab-content">
+      
+      <!-- SESSION 1 -->
+      <div class="section-title">Session 1: First Semester Progress & Partner Contributions (09:15 – 13:30)</div>
+
+      <!-- 09:15 - 09:30 Single Item -->
+      <details class="agenda-group" data-start="09:15" data-end="09:30">
+        <summary class="agenda-header">
+          <div class="header-left">
+            <input type="checkbox" class="item-checkbox" onchange="toggleAccordionDone(this, event)">
+            <span class="header-time">09:15 - 09:30</span>
+            <span>Registration & Welcome Speech</span>
+          </div>
+          <span class="chevron">▼</span>
+        </summary>
+        <div class="dropdown-content">
+          <div class="sub-item">
+            <div class="sub-left">
+              <span class="sub-time">09:15 - 09:30</span>
+              <span class="sub-name">Arrival, registration signatures & welcome remarks</span>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 09:30 - 09:50 Evologic Only -->
+      <details class="agenda-group" data-start="09:30" data-end="09:50">
+        <summary class="agenda-header">
+          <div class="header-left">
+            <input type="checkbox" class="item-checkbox" onchange="toggleAccordionDone(this, event)">
+            <span class="header-time">09:30 - 09:50</span>
+            <span>Welcome & Period 1 Status Overview — <strong>Evologic</strong></span>
+          </div>
+          <span class="chevron">▼</span>
+        </summary>
+        <div class="dropdown-content">
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">09:30 - 09:50</span>
+              <span class="sub-name">Evologic: Project progress & milestones</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+        </div>
+      </details>
+
+      <!-- 09:50 - 11:10 (4 partners, ~20 min each) -->
+      <details class="agenda-group" data-start="09:50" data-end="11:10">
+        <summary class="agenda-header">
+          <div class="header-left">
+            <input type="checkbox" class="item-checkbox" onchange="toggleAccordionDone(this, event)">
+            <span class="header-time">09:50 - 11:10</span>
+            <span>Partner Progress Presentations (4 Partners, ~20 min each)</span>
+          </div>
+          <span class="chevron">▼</span>
+        </summary>
+        <div class="dropdown-content">
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">09:50 - 10:10</span>
+              <span class="sub-name">Evologic — Partner Progress</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">10:10 - 10:30</span>
+              <span class="sub-name">Lajtamag — Partner Progress</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">10:30 - 10:50</span>
+              <span class="sub-name">Mavad — Partner Progress</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">10:50 - 11:10</span>
+              <span class="sub-name">SZE — Partner Progress</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+        </div>
+      </details>
+
+      <!-- 11:10 - 11:30 Coffee & Lunch Pick -->
+      <details class="agenda-group" data-start="11:10" data-end="11:30" style="background: #fefce8;">
+        <summary class="agenda-header">
+          <div class="header-left">
+            <input type="checkbox" class="item-checkbox" onchange="toggleAccordionDone(this, event)">
+            <span class="header-time">11:10 - 11:30</span>
+            <span>☕ Coffee Break & Lunch Selection</span>
+          </div>
+          <span class="chevron">▼</span>
+        </summary>
+        <div class="dropdown-content">
+          <div class="sub-item">
+            <div class="sub-left">
+              <span class="sub-time">11:10 - 11:30</span>
+              <span class="sub-name">Refreshments and submission of today's lunch menu choices</span>
+            </div>
+            <button class="btn btn-lunch" onclick="openTab('lunch')">🍽 Open Lunch Panel</button>
+          </div>
+        </div>
+      </details>
+
+      <!-- 11:30 - 12:30 (WP1–WP4 status broken down into 15-minute slots) -->
+      <details class="agenda-group" data-start="11:30" data-end="12:30">
+        <summary class="agenda-header">
+          <div class="header-left">
+            <input type="checkbox" class="item-checkbox" onchange="toggleAccordionDone(this, event)">
+            <span class="header-time">11:30 - 12:30</span>
+            <span>Work Package Implementation & Status (WP1–WP4, 15 min slots)</span>
+          </div>
+          <span class="chevron">▼</span>
+        </summary>
+        <div class="dropdown-content">
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">11:30 - 11:45</span>
+              <span class="sub-name">WP1 Lead — Evologic</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">11:45 - 12:00</span>
+              <span class="sub-name">WP2 Lead — Lajtamag</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">12:00 - 12:15</span>
+              <span class="sub-name">WP3 Lead — Mavad</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">12:15 - 12:30</span>
+              <span class="sub-name">WP4 Lead — SZE</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+        </div>
+      </details>
+
+      <!-- 12:30 - 13:30 Lunch Break -->
+      <details class="agenda-group" data-start="12:30" data-end="13:30">
+        <summary class="agenda-header">
+          <div class="header-left">
+            <input type="checkbox" class="item-checkbox" onchange="toggleAccordionDone(this, event)">
+            <span class="header-time">12:30 - 13:30</span>
+            <span>🥗 Tree planting, Group Picture & Plant Visit, Lunch Break</span>
+          </div>
+          <span class="chevron">▼</span>
+        </summary>
+        <div class="dropdown-content">
+          <div class="sub-item">
+            <div class="sub-left">
+              <span class="sub-time">12:30 - 13:30</span>
+              <span class="sub-name">Tree planting, group photo, visit to the Seed Production Plant and Laboratory, Lunch</span>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- SESSION 2 -->
+      <div class="section-title">Session 2: Reporting Feedback, Corrections & Next Period Action Plan (13:30 – 16:30)</div>
+
+      <!-- 13:30 - 14:15 Reporting Experience (4 Partners) -->
+      <details class="agenda-group" data-start="13:30" data-end="14:15">
+        <summary class="agenda-header">
+          <div class="header-left">
+            <input type="checkbox" class="item-checkbox" onchange="toggleAccordionDone(this, event)">
+            <span class="header-time">13:30 - 14:15</span>
+            <span>Semester 1 Reporting Experience (All Partners)</span>
+          </div>
+          <span class="chevron">▼</span>
+        </summary>
+        <div class="dropdown-content">
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">13:30 - 13:41</span>
+              <span class="sub-name">Evologic — Reporting Feedback & FLC</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">13:41 - 13:52</span>
+              <span class="sub-name">Lajtamag — Reporting Feedback & FLC</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">13:52 - 14:03</span>
+              <span class="sub-name">Mavad — Reporting Feedback & FLC</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">14:03 - 14:15</span>
+              <span class="sub-name">SZE — Reporting Feedback & FLC</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+        </div>
+      </details>
+
+      <!-- 14:15 - 15:00 Clarifications & Deficiencies -->
+      <details class="agenda-group" data-start="14:15" data-end="15:00">
+        <summary class="agenda-header">
+          <div class="header-left">
+            <input type="checkbox" class="item-checkbox" onchange="toggleAccordionDone(this, event)">
+            <span class="header-time">14:15 - 15:00</span>
+            <span>Clarification Requests & Deficiencies Review</span>
+          </div>
+          <span class="chevron">▼</span>
+        </summary>
+        <div class="dropdown-content">
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">14:15 - 14:26</span>
+              <span class="sub-name">Evologic — Clarification review</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">14:26 - 14:37</span>
+              <span class="sub-name">Lajtamag — Clarification review</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">14:37 - 14:48</span>
+              <span class="sub-name">Mavad — Clarification review</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">14:48 - 15:00</span>
+              <span class="sub-name">SZE — Clarification review</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+        </div>
+      </details>
+
+      <!-- 15:00 - 15:15 Coffee Break -->
+      <details class="agenda-group" data-start="15:00" data-end="15:15" style="background: #fefce8;">
+        <summary class="agenda-header">
+          <div class="header-left">
+            <input type="checkbox" class="item-checkbox" onchange="toggleAccordionDone(this, event)">
+            <span class="header-time">15:00 - 15:15</span>
+            <span>☕ Coffee Break</span>
+          </div>
+          <span class="chevron">▼</span>
+        </summary>
+        <div class="dropdown-content">
+          <div class="sub-item">
+            <div class="sub-left">
+              <span class="sub-time">15:00 - 15:15</span>
+              <span class="sub-name">Short recharge break</span>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 15:15 - 16:15 Work Plan & Task Allocation (15 min each) -->
+      <details class="agenda-group" data-start="15:15" data-end="16:15">
+        <summary class="agenda-header">
+          <div class="header-left">
+            <input type="checkbox" class="item-checkbox" onchange="toggleAccordionDone(this, event)">
+            <span class="header-time">15:15 - 16:15</span>
+            <span>Next Period Work Plan & Task Allocation (15 min per partner)</span>
+          </div>
+          <span class="chevron">▼</span>
+        </summary>
+        <div class="dropdown-content">
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">15:15 - 15:30</span>
+              <span class="sub-name">Evologic — Action plan & milestones</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">15:30 - 15:45</span>
+              <span class="sub-name">Lajtamag — Action plan & milestones</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">15:45 - 16:00</span>
+              <span class="sub-name">Mavad — Action plan & milestones</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">16:00 - 16:15</span>
+              <span class="sub-name">SZE — Action plan & milestones</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+        </div>
+      </details>
+
+      <!-- 16:15 - 16:30 Evologic Only -->
+      <details class="agenda-group" data-start="16:15" data-end="16:30">
+        <summary class="agenda-header">
+          <div class="header-left">
+            <input type="checkbox" class="item-checkbox" onchange="toggleAccordionDone(this, event)">
+            <span class="header-time">16:15 - 16:30</span>
+            <span>Q&A, Summary & Next Steps — <strong>Evologic</strong></span>
+          </div>
+          <span class="chevron">▼</span>
+        </summary>
+        <div class="dropdown-content">
+          <div class="sub-item">
+            <div class="sub-left">
+              <input type="checkbox" class="item-checkbox" onchange="toggleSubItem(this)">
+              <span class="sub-time">16:15 - 16:30</span>
+              <span class="sub-name">Evologic: Final conclusions & closing</span>
+            </div>
+            <a href="presentations/" target="_blank" class="btn btn-folder">📁 Open Slides Folder</a>
+          </div>
+        </div>
+      </details>
+
+    </section>
+
+    <!-- TAB 3: PROGRAM OVERVIEW -->
+    <section id="tab-program" class="tab-content">
+      <div class="card">
+        <h2 style="color: var(--primary); margin-bottom: 0.5rem;">Agenda — Semester 1 Review & Planning Meeting</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+          Date: 12th November, 2026 | Location: Lajtamag Headquarters, Mosonudvar
+        </p>
+
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border); color: var(--primary);">
+              <th style="padding: 0.75rem 0.5rem; width: 140px;">Time</th>
+              <th style="padding: 0.75rem 0.5rem;">Session / Topic</th>
+              <th style="padding: 0.75rem 0.5rem;">Partners</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding: 0.65rem 0.5rem; font-weight: 600;">09:15 - 09:30</td>
+              <td style="padding: 0.65rem 0.5rem;">Registration & Welcome Speech</td>
+              <td style="padding: 0.65rem 0.5rem; color: var(--text-muted);">All Partners</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding: 0.65rem 0.5rem; font-weight: 600;">09:30 - 09:50</td>
+              <td style="padding: 0.65rem 0.5rem;">Welcome & Period 1 Status Overview</td>
+              <td style="padding: 0.65rem 0.5rem; font-weight: 600;">Evologic</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding: 0.65rem 0.5rem; font-weight: 600;">09:50 - 11:10</td>
+              <td style="padding: 0.65rem 0.5rem;">Partner Progress Presentations</td>
+              <td style="padding: 0.65rem 0.5rem;">Evologic, Lajtamag, Mavad, SZE</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border); background: #fefce8;">
+              <td style="padding: 0.65rem 0.5rem; font-weight: 600;">11:10 - 11:30</td>
+              <td style="padding: 0.65rem 0.5rem;">Coffee Break & Lunch Selection</td>
+              <td style="padding: 0.65rem 0.5rem;">All Partners</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding: 0.65rem 0.5rem; font-weight: 600;">11:30 - 12:30</td>
+              <td style="padding: 0.65rem 0.5rem;">Work Package Implementation (WP1–WP4)</td>
+              <td style="padding: 0.65rem 0.5rem;">Evologic, Lajtamag, Mavad, SZE</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border); background: #fefce8;">
+              <td style="padding: 0.65rem 0.5rem; font-weight: 600;">12:30 - 13:30</td>
+              <td style="padding: 0.65rem 0.5rem;">Tree planting & Plant / Lab visit & Lunch Break</td>
+              <td style="padding: 0.65rem 0.5rem;">All Partners</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding: 0.65rem 0.5rem; font-weight: 600;">13:30 - 14:15</td>
+              <td style="padding: 0.65rem 0.5rem;">Semester 1 Reporting Experience</td>
+              <td style="padding: 0.65rem 0.5rem;">Evologic, Lajtamag, Mavad, SZE</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding: 0.65rem 0.5rem; font-weight: 600;">14:15 - 15:00</td>
+              <td style="padding: 0.65rem 0.5rem;">Clarification Requests & Deficiencies</td>
+              <td style="padding: 0.65rem 0.5rem;">Evologic, Lajtamag, Mavad, SZE</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border); background: #fefce8;">
+              <td style="padding: 0.65rem 0.5rem; font-weight: 600;">15:00 - 15:15</td>
+              <td style="padding: 0.65rem 0.5rem;">Coffee Break</td>
+              <td style="padding: 0.65rem 0.5rem;">All Partners</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding: 0.65rem 0.5rem; font-weight: 600;">15:15 - 16:15</td>
+              <td style="padding: 0.65rem 0.5rem;">Next Period Work Plan & Task Allocation</td>
+              <td style="padding: 0.65rem 0.5rem;">Evologic, Lajtamag, Mavad, SZE</td>
+            </tr>
+            <tr>
+              <td style="padding: 0.65rem 0.5rem; font-weight: 600;">16:15 - 16:30</td>
+              <td style="padding: 0.65rem 0.5rem;">Q&A, Summary & Next Steps</td>
+              <td style="padding: 0.65rem 0.5rem; font-weight: 600;">Evologic</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 4: LUNCH SELECTION -->
+    <section id="tab-lunch" class="tab-content">
+      <div class="card">
+        <h2 style="color: var(--primary); font-size: 1.4rem;">🍽 Lunch Order & Menu Choice</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">
+          Participants can register their name and select from the lunch menu options below.
+        </p>
+
+        <div class="iframe-box">
+          <iframe 
+            src="https://docs.google.com/forms/d/e/1FAIpQLSevpbJgBiOT-0QzQUyMiH-TTneK8ZKbZSpz7q9lgMdmH4_nEg/viewform?usp=sharing&ouid=100188281792601077309" 
+            id="lunch-google-form"
+            title="Lunch Selection Form">
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // Tab switching with full-screen background optimization
+    function openTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      const targetTab = document.getElementById('tab-' + tabName);
+      if (targetTab) targetTab.classList.add('active');
+
+      const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(b => 
+        b.getAttribute('onclick').includes(tabName)
+      );
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // If background tab is selected, hide the top logo banner and sticky clock to give a clean presentation view
+      const topBanner = document.getElementById('top-banner');
+      const floatingClock = document.getElementById('floating-clock');
+      if (tabName === 'background') {
+        if (topBanner) topBanner.style.display = 'none';
+        if (floatingClock) floatingClock.style.display = 'none';
+      } else {
+        if (topBanner) topBanner.style.display = 'flex';
+        if (floatingClock) floatingClock.style.display = 'block';
+      }
+    }
+
+    // Toggle fullscreen for the Background Screen
+    function toggleFullScreen() {
+      const el = document.getElementById('bg-fullscreen-target');
+      if (!document.fullscreenElement) {
+        if (el.requestFullscreen) {
+          el.requestFullscreen();
+        } else if (el.webkitRequestFullscreen) {
+          el.webkitRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Toggle between contain (no clipping) and cover (full bleed)
+    function toggleFit(btn) {
+      const img = document.querySelector('.fullscreen-bg-wrapper img');
+      if (img.style.objectFit === 'cover') {
+        img.style.objectFit = 'contain';
+        btn.innerText = 'Fit: Contain';
+      } else {
+        img.style.objectFit = 'cover';
+        btn.innerText = 'Fit: Cover';
+      }
+    }
+
+    // Floating Clock and Automatic Slot Detection
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      
+      const clockEl = document.getElementById('clock');
+      if (clockEl) clockEl.innerText = `${h}:${m}:${s}`;
+
+      const currentMins = now.getHours() * 60 + now.getMinutes();
+      let foundActive = false;
+
+      document.querySelectorAll('.agenda-group').forEach(group => {
+        const start = group.getAttribute('data-start');
+        const end = group.getAttribute('data-end');
+        if (start && end) {
+          const [sH, sM] = start.split(':').map(Number);
+          const [eH, eM] = end.split(':').map(Number);
+          const startTotal = sH * 60 + sM;
+          const endTotal = eH * 60 + eM;
+
+          if (currentMins >= startTotal && currentMins < endTotal) {
+            group.classList.add('active');
+            foundActive = true;
+          } else {
+            group.classList.remove('active');
+          }
+        }
+      });
+
+      const statusEl = document.getElementById('current-status');
+      if (statusEl) {
+        statusEl.innerText = foundActive ? 'Active Slot' : 'Waiting / Break';
+      }
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Checkbox toggling for individual sub-items
+    function toggleSubItem(checkbox) {
+      const subItem = checkbox.closest('.sub-item');
+      if (checkbox.checked) {
+        subItem.classList.add('completed');
+      } else {
+        subItem.classList.remove('completed');
+      }
+    }
+
+    // Checkbox toggling on accordion headers
+    function toggleAccordionDone(checkbox, event) {
+      event.stopPropagation();
+      const group = checkbox.closest('.agenda-group');
+      const subCheckboxes = group.querySelectorAll('.sub-item .item-checkbox');
+      
+      subCheckboxes.forEach(cb => {
+        cb.checked = checkbox.checked;
+        toggleSubItem(cb);
+      });
+
+      if (checkbox.checked) {
+        group.style.opacity = '0.6';
+      } else {
+        group.style.opacity = '1';
+      }
+    }
+  </script>
+</body>
+</html>
