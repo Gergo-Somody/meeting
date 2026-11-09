@@ -1251,6 +1251,14 @@
         group.style.opacity = '1';
       }
     }
+
+    // Oldalbetöltéskor ellenőrzi, hogy van-e hash az URL-ben (pl. #lunch)
+window.addEventListener('DOMContentLoaded', () => {
+  const hash = window.location.hash.replace('#', '');
+  if (hash === 'lunch' || hash === 'moderator' || hash === 'program') {
+    openTab(hash);
+  }
+});
   </script>
 </body>
 </html>
